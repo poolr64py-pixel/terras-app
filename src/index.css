@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cores e gradientes modernos */
+:root {
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Header com gradiente */
+header {
+  background: var(--gradient-primary) !important;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Logo e texto do header */
+header h1 {
+  color: white !important;
+}
+
+header p {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+header a {
+  color: white !important;
+  font-weight: 500;
+}
+
+header a:hover {
+  color: #fbbf24 !important;
+}
+
+/* Seção hero com cores */
+.hero-section {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+/* Botões melhorados */
+button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 25px !important; /* Bordas arredondadas */
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+button:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Botão secundário transparente */
+button.btn-secondary {
+  background: transparent !important;
+  border: 2px solid white !important;
+  color: white !important;
+}
+
+button.btn-secondary:hover {
+  background: white !important;
+  color: #667eea !important;
+}

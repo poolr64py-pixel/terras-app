@@ -1,0 +1,485 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Users, Plus, Search, Filter, Eye, Edit, Trash2, Phone, Mail, 
+  Calendar, DollarSign, Home, MapPin, Clock, Star, AlertCircle,
+  TrendingUp, BarChart3, PieChart, FileText, Settings, Bell,
+  Download, Upload, MessageSquare, MessageCircle, Send
+} from 'lucide-react';
+
+// Componente principal do CRM
+const CRMDashboard = ({ onBack }) => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [clients, setClients] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [propertiesList, setPropertiesList] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setSelectedImage(e.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const saveProperty = (propertyData) => {
+    const newProperty = {
+      image: selectedImage,
+      id: Date.now(),
+      ...propertyData,
+      createdAt: new Date().toLocaleDateString()
+    };
+    setPropertiesList(prev => [...prev, newProperty]);
+    alert("Propriedade salva com sucesso!");
+  };
+  const [leads, setLeads] = useState([]);
+  const [showClientModal, setShowClientModal] = useState(false);
+  const [editingClient, setEditingClient] = useState(null);
+
+  // Dados mockados para demonstração
+  useEffect(() => {
+    setClients([
+      {
+        id: 1,
+        name: 'João Silva',
+        email: 'joao@email.com',
+        phone: '+55 11 99999-9999',
+        status: 'active',
+        interest: 'Compra',
+        budget: 'R$ 300.000 - R$ 500.000',
+        location: 'São Paulo, SP',
+        source: 'WhatsApp',
+        created: '2025-01-15',
+        lastContact: '2025-01-20'
+      },
+      {
+        id: 2,
+        name: 'Maria Santos',
+        email: 'maria@email.com',
+        phone: '+55 11 88888-8888',
+        status: 'lead',
+        interest: 'Aluguel',
+        budget: 'R$ 2.000 - R$ 3.000',
+        location: 'Rio de Janeiro, RJ',
+        source: 'Site',
+        created: '2025-01-18',
+        lastContact: '2025-01-19'
+      }
+    ]);
+
+    setProperties([
+      {
+        id: 1,
+        title: 'Casa em Assunção',
+        price: 'R$ 450.000',
+        type: 'Casa',
+        location: 'Centro, Assunção',
+        status: 'Disponível',
+        area: '150m²',
+        bedrooms: 3,
+        bathrooms: 2,
+        views: 45,
+        inquiries: 8
+      }
+    ]);
+
+    setLeads([
+      {
+        id: 1,
+        name: 'Pedro Costa',
+        email: 'pedro@email.com',
+        phone: '+55 11 77777-7777',
+        property: 'Casa em Assunção',
+        status: 'novo',
+        source: 'WhatsApp',
+        created: '2025-01-20 14:30'
+      }
+    ]);
+  }, []);
+
+  // Dashboard com métricas
+  const DashboardView = () => (
+    <div className="space-y-6">
+      {/* Métricas principais */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total Clientes</p>
+              <p className="text-2xl font-bold text-gray-900">{clients.length}</p>
+            </div>
+            <Users className="w-8 h-8 text-blue-500" />
+          </div>
+          <p className="text-sm text-green-600 mt-2">↗ +12% este mês</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Leads Ativos</p>
+              <p className="text-2xl font-bold text-gray-900">{leads.length}</p>
+            </div>
+            <TrendingUp className="w-8 h-8 text-green-500" />
+          </div>
+          <p className="text-sm text-green-600 mt-2">↗ +8% esta semana</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Propriedades</p>
+              <p className="text-2xl font-bold text-gray-900">{properties.length}</p>
+            </div>
+            <Home className="w-8 h-8 text-purple-500" />
+          </div>
+          <p className="text-sm text-blue-600 mt-2">5 novas esta semana</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Taxa Conversão</p>
+              <p className="text-2xl font-bold text-gray-900">24%</p>
+            </div>
+            <BarChart3 className="w-8 h-8 text-orange-500" />
+          </div>
+          <p className="text-sm text-green-600 mt-2">↗ +3% este mês</p>
+        </div>
+      </div>
+
+      {/* Atividades recentes */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <h3 className="text-lg font-semibold mb-4">Atividades Recentes</h3>
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+              <Phone className="w-5 h-5 text-blue-500" />
+              <div>
+                <p className="text-sm font-medium">Ligação para João Silva</p>
+                <p className="text-xs text-gray-500">Há 2 horas</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+              <MessageCircle className="w-5 h-5 text-green-500" />
+              <div>
+                <p className="text-sm font-medium">Novo lead via WhatsApp</p>
+                <p className="text-xs text-gray-500">Há 4 horas</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
+              <Eye className="w-5 h-5 text-purple-500" />
+              <div>
+                <p className="text-sm font-medium">Propriedade visualizada</p>
+                <p className="text-xs text-gray-500">Há 6 horas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border">
+          <h3 className="text-lg font-semibold mb-4">Leads por Fonte</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm">WhatsApp</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-24 h-2 bg-gray-200 rounded-full">
+                  <div className="w-16 h-2 bg-green-500 rounded-full"></div>
+                </div>
+                <span className="text-sm text-gray-600">67%</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm">Site</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-24 h-2 bg-gray-200 rounded-full">
+                  <div className="w-8 h-2 bg-blue-500 rounded-full"></div>
+                </div>
+                <span className="text-sm text-gray-600">33%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Gestão de Clientes
+  const ClientsView = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Gestão de Clientes</h2>
+        <button 
+          onClick={() => setShowClientModal(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Novo Cliente</span>
+        </button>
+      </div>
+
+      {/* Lista de clientes */}
+      <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contato</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interesse</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {clients.map((client) => (
+                <tr key={client.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">{client.name}</div>
+                      <div className="text-sm text-gray-500">{client.location}</div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{client.phone}</div>
+                    <div className="text-sm text-gray-500">{client.email}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{client.interest}</div>
+                    <div className="text-sm text-gray-500">{client.budget}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      client.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {client.status === 'active' ? 'Ativo' : 'Lead'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900">
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button className="text-green-600 hover:text-green-900">
+                        <Phone className="w-4 h-4" />
+                      </button>
+                      <button className="text-purple-600 hover:text-purple-900">
+                        <MessageCircle className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header do CRM */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={onBack}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                ← Voltar
+              </button>
+              <h1 className="text-2xl font-bold text-gray-900">CRM Imóveis</h1>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Navegação por abas */}
+        <nav className="flex space-x-8 mb-8">
+          {[
+            { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+            { id: 'clients', label: 'Clientes', icon: Users },
+            { id: 'properties', label: 'Propriedades', icon: Home }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === tab.id 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <tab.icon className="w-4 h-4" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        {/* Conteúdo baseado na aba ativa */}
+        {activeTab === 'dashboard' && <DashboardView />}
+        {activeTab === 'clients' && <ClientsView />}
+        {activeTab === 'properties' && <div className="bg-white p-8 rounded-xl"><div><h3>Cadastrar Imóvel</h3><form><input placeholder="Título do Imóvel" style={{width:"100%", padding:"8px", margin:"5px 0", border:"1px solid #ccc", borderRadius:"4px"}} /><input placeholder="Preço" style={{width:"100%", padding:"8px", margin:"5px 0", border:"1px solid #ccc", borderRadius:"4px"}} /><textarea placeholder="Descrição" style={{width:"100%", padding:"8px", margin:"5px 0", border:"1px solid #ccc", borderRadius:"4px"}}></textarea><button type="button" onClick={() => saveProperty({title: "Imóvel Teste", price: "USD 100.000", description: "Descrição teste"})}>Salvar</button></form></div></div>}
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+      <h4 style={{marginTop: "30px"}}>Propriedades Cadastradas ({propertiesList.length})</h4>
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+      {propertiesList.map(property => (
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+        <div key={property.id} style={{border: "1px solid #ddd", padding: "10px", margin: "10px 0"}}>
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+          <strong>{property.title}</strong> - {property.price}<br/>
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+          <small>Cadastrado em: {property.createdAt}</small>
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+        </div>
+
+              <div className="mb-3">
+                <label className="form-label">📷 Imagem da Propriedade</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {selectedImage && (
+                  <div className="mt-3">
+                    <p className="text-success">✅ Imagem selecionada:</p>
+                    <img 
+                      src={selectedImage} 
+                      alt="Preview da propriedade" 
+                      className="img-thumbnail border border-primary" 
+                      style={{maxWidth: "200px", maxHeight: "150px"}}
+                    />
+                  </div>
+                )}
+              </div>
+      ))}
+      </div>
+    </div>
+  );
+};
+
+export default CRMDashboard;

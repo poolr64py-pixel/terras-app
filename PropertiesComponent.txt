@@ -1,0 +1,21 @@
+// Componente de Gestão de Propriedades
+const PropertiesView = ({ properties, setProperties }) => {
+  return (
+    <div className="bg-white rounded-xl shadow-sm p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Gestão de Propriedades</h2>
+      <p className="text-gray-600">Sistema funcionando! 🏠</p>
+    </div>
+  );
+};
+
+EOFcat > PropertiesComponent.txt << 'EOF'
+// Componente de Gestão de Propriedades
+const PropertiesView = ({ properties, setProperties }) => {
+  return (
+    <div className="bg-white rounded-xl shadow-sm p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Gestão de Propriedades</h2>
+      <p className="text-gray-600">Sistema funcionando! 🏠</p>
+    </div>
+  );
+};
+
