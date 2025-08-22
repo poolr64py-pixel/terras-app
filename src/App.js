@@ -92,22 +92,13 @@ function App() {
           >
             Contato
           </button>
-          
-          <button 
-            onClick={() => setShowCRM(true)}
-            style={{
-              background: 'rgba(255,255,255,0.2)',
-              color: 'white',
-              border: '1px solid rgba(255,255,255,0.3)',
-              padding: '8px 16px',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontSize: '14px'
-            }}
-          >
-            CRM Admin
-          </button>
-        </nav>
+<button
+  onClick={() => setShowCRM(true)}
+  style={{ color: '#667eea', textDecoration: 'none', cursor: 'pointer' }}
+>
+  👨‍💼 CRM Admin
+</button>       
+ </nav>
       </header>
 
       <div style={{ paddingTop: '80px' }}>
