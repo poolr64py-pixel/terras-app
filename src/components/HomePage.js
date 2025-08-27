@@ -1,13 +1,17 @@
 import ZenLanguageSelector from './ZenLanguageSelector';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-
+import { Analytics, FacebookPixel } from '../utils/Analytics';
 const HomePage = ({ onSendWhatsApp, onNavigate }) => {
+useEffect(() => {
+  Analytics.trackPageView('/', 'Home - Terras Paraguay');
+}, []);
   const [currentLang, setCurrentLang] = useState('pt');
 
   // Sistema de traduções completo
   const translations = {
     pt: {
+
       meta: {
         title: "Imóveis no Paraguai | Invista com Segurança Jurídica | Terras Paraguay",
         description: "Descubra propriedades premium no Paraguai com segurança jurídica completa e suporte especializado. Mais de 12 anos de experiência no mercado imobiliário paraguaio.",
@@ -381,7 +385,11 @@ const HomePage = ({ onSendWhatsApp, onNavigate }) => {
               {t.hero.browseBtn}
             </button>
             <button
-              onClick={() => onSendWhatsApp(t.hero.whatsappMsg)}
+onClick={() => {
+  Analytics.trackWhatsAppClick('Hero CTA');
+  onSendWhatsApp(t.hero.whatsappMsg);
+}}
+             
               style={{
                 background: '#25D366',
                 border: 'none',

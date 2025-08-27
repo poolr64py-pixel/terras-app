@@ -1,3 +1,4 @@
+import PropertyFilter from './PropertyFilter';
 import ZenLanguageSelector from './ZenLanguageSelector';
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -12,6 +13,7 @@ const ImoveisPage = ({ onSendWhatsApp }) => {
         description: "Explore nossa seleção exclusiva de propriedades no Paraguai. Casas, apartamentos, terrenos comerciais com documentação completa e segurança jurídica.",
         keywords: "imoveis paraguai, casas paraguai, apartamentos paraguai, terrenos paraguai, propriedades paraguai"
       },
+
       title: "Imóveis Disponíveis no Paraguai",
       subtitle: "Seleção exclusiva de propriedades com alto potencial de valorização",
       interest: "Tenho Interesse",
@@ -204,12 +206,17 @@ const ImoveisPage = ({ onSendWhatsApp }) => {
 
   return (
     <div style={{ background: '#f8f9fa', minHeight: 'calc(100vh - 80px)', padding: '40px 20px' }}>
+
       <Helmet>
         <title>{t.meta.title}</title>
         <meta name="description" content={t.meta.description} />
         <meta name="keywords" content={t.meta.keywords} />
       </Helmet>
 
+      <PropertyFilter 
+       onFilter={(filters) => console.log('Filtros:', filters)} 
+       currentLang={currentLang} 
+     />
       {/* Language Selector */}
       <ZenLanguageSelector currentLang={currentLang} setCurrentLang={setCurrentLang} />
 

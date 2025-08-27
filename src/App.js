@@ -1,46 +1,60 @@
-import BlogSystem from './blog/BlogSystem';
-import React, { useState } from 'react';
-import MobileMenu from "./MenuMobile";
-import CRMDashboard from './CRM';
-import HomePage from './components/HomePage';
-import ImoveisPage from './components/ImoveisPage';
-import ServicosPage from './components/ServicosPage';
-import SobrePage from './components/SobrePage';
-import ContatoPage from './components/ContatoPage';
-import './App.css';
+import React, { useState, lazy, Suspense } from 'react';
+import MobileMenu from './components/MobileMenu';
 
+// Lazy Components
+const LazyHomePage = lazy(() => import('./components/HomePage'));
+const LazyImoveisPage = lazy(() => import('./components/ImoveisPage'));
+const LazyServicosPage = lazy(() => import('./components/ServicosPage'));
+const LazySobrePage = lazy(() => import('./components/SobrePage'));
+const LazyContatoPage = lazy(() => import('./components/ContatoPage'));
+const LazyBlogSystem = lazy(() => import('./blog/BlogSystem'));
+const LazyCRMDashboard = lazy(() => import('./CRM'));
+
+// HOC para Lazy Loading com fallback
+const withLazyLoading = (Component) => (props) => (
+  <Suspense fallback={<div>Carregando...</div>}>
+    <Component {...props} />
+  </Suspense>
+);
 
 function App() {
   const [showCRM, setShowCRM] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
 
-  if (showCRM) {
-    return <CRMDashboard onBack={() => setShowCRM(false)} />;
-  }
-
   const whatsappNumber = '+595994718400';
-
   const sendWhatsApp = (message) => {
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 
-  const renderPage = () => {
-  switch(currentPage) {
-    case 'imoveis':
-      return <ImoveisPage onSendWhatsApp={sendWhatsApp} />;
-    case 'servicos':
-      return <ServicosPage onSendWhatsApp={sendWhatsApp} />;
-    case 'sobre':
-      return <SobrePage />;
-    case 'contato':
-      return <ContatoPage onSendWhatsApp={sendWhatsApp} />;
-    case 'blog':
-      return <BlogSystem onSendWhatsApp={sendWhatsApp} />;
-    default:
-      return <HomePage onSendWhatsApp={sendWhatsApp} onNavigate={setCurrentPage} />;
+  if (showCRM) {
+    const LazyCRM = withLazyLoading(LazyCRMDashboard);
+    return <LazyCRM onBack={() => setShowCRM(false)} />;
   }
-};
+
+  const renderPage = () => {
+    const LazyHome = withLazyLoading(LazyHomePage);
+    const LazyImoveis = withLazyLoading(LazyImoveisPage);
+    const LazyServicos = withLazyLoading(LazyServicosPage);
+    const LazySobre = withLazyLoading(LazySobrePage);
+    const LazyContato = withLazyLoading(LazyContatoPage);
+    const LazyBlog = withLazyLoading(LazyBlogSystem);
+
+    switch (currentPage) {
+      case 'imoveis':
+        return <LazyImoveis onSendWhatsApp={sendWhatsApp} />;
+      case 'servicos':
+        return <LazyServicos onSendWhatsApp={sendWhatsApp} />;
+      case 'sobre':
+        return <LazySobre />;
+      case 'contato':
+        return <LazyContato onSendWhatsApp={sendWhatsApp} />;
+      case 'blog':
+        return <LazyBlog onSendWhatsApp={sendWhatsApp} />;
+      default:
+        return <LazyHome onSendWhatsApp={sendWhatsApp} onNavigate={setCurrentPage} />;
+    }
+  };
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -71,90 +85,33 @@ function App() {
         </div>
 
         <nav className="desktop-nav" style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
-  <button
-  onClick={() => setCurrentPage('home')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'home' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'home' ? 'underline' : 'none' 
-  }}
->
-  Início
-</button>
-<button
-  onClick={() => setCurrentPage('imoveis')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'imoveis' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'imoveis' ? 'underline' : 'none' 
-  }}
->
-  Imóveis
-</button>
-<button
-  onClick={() => setCurrentPage('servicos')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'servicos' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'servicos' ? 'underline' : 'none' 
-  }}
->
-  Serviços
-</button>
-<button
-  onClick={() => setCurrentPage('sobre')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'sobre' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'sobre' ? 'underline' : 'none' 
-  }}
->
-  Sobre
-</button>
-<button
-  onClick={() => setCurrentPage('contato')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'contato' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'contato' ? 'underline' : 'none' 
-  }}
->
-  Contato
-</button>
-<button
-  onClick={() => setCurrentPage('blog')}
-  style={{ 
-    background: 'none', 
-    border: 'none', 
-    color: currentPage === 'blog' ? '#fff' : 'rgba(255,255,255,0.8)', 
-    cursor: 'pointer', 
-    textDecoration: currentPage === 'blog' ? 'underline' : 'none' 
-  }}
->
-  Blog
-</button>
-<button
-  onClick={() => setShowCRM(true)}
-  style={{ 
-    background: 'none',
-    border: 'none',
-    color: '#667eea', 
-    textDecoration: 'none', 
-    cursor: 'pointer' 
-  }}
->
-  ⚙️👨‍💼 CRM Admin
-</button>
+          {['home', 'imoveis', 'servicos', 'sobre', 'contato', 'blog'].map((page) => (
+            <button
+              key={page}
+              onClick={() => page === 'home' ? setCurrentPage('home') : setCurrentPage(page)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: currentPage === page ? '#fff' : 'rgba(255,255,255,0.8)',
+                cursor: 'pointer',
+                textDecoration: currentPage === page ? 'underline' : 'none'
+              }}
+            >
+              {page.charAt(0).toUpperCase() + page.slice(1)}
+            </button>
+          ))}
+          <button
+            onClick={() => setShowCRM(true)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#667eea',
+              textDecoration: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            ⚙️👨‍💼 CRM Admin
+          </button>
         </nav>
       </header>
 
