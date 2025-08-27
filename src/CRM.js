@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const DashboardCRM = () => {
+const DashboardCRM = ({ onBack }) => {
   const [stats, setStats] = useState({
     totalProperties: 0,
     totalViews: 0,
@@ -22,80 +22,122 @@ const DashboardCRM = () => {
     setProperties([
       { id: 1, title: 'Casa Moderna Centro', price: 'USD 350.000', status: 'Ativo', views: 45 },
       { id: 2, title: 'Apartamento Vista Mar', price: 'USD 250.000', status: 'Ativo', views: 32 },
-      { id: 3, title: 'Sitio Rural Premium', price: 'USD 180.000', status: 'Vendido', views: 28 }
+      { id: 3, title: 'Sítio Rural Premium', price: 'USD 180.000', status: 'Vendido', views: 28 }
     ]);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">🏠 Dashboard CRM</h1>
-          <p className="text-gray-600">Visão geral das propriedades e performance</p>
+    <div style={{ minHeight: '100vh', background: '#f8f9fa', padding: '24px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header com botão Voltar */}
+        <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#333', marginBottom: '8px' }}>
+              🏠 Dashboard CRM
+            </h1>
+            <p style={{ color: '#666' }}>Visão geral das propriedades e performance</p>
+          </div>
+          
+          {/* Botão Voltar */}
+          <button
+            onClick={onBack}
+            style={{
+              background: '#667eea',
+              color: 'white',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            ← Voltar para Site
+          </button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="flex items-center justify-between">
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gap: '24px', 
+          marginBottom: '32px' 
+        }}>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <p className="text-sm text-gray-600">Total Propriedades</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalProperties}</p>
+                <p style={{ fontSize: '14px', color: '#666', marginBottom: '8px' }}>Total Propriedades</p>
+                <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#333' }}>{stats.totalProperties}</p>
               </div>
-              <div className="text-4xl">🏠</div>
+              <div style={{ fontSize: '48px' }}>🏠</div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="flex items-center justify-between">
+          <div style={{ background: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <p className="text-sm text-gray-600">Visualizações</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalViews}</p>
+                <p style={{ fontSize: '14px', color: '#666', marginBottom: '8px' }}>Visualizações</p>
+                <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#333' }}>{stats.totalViews}</p>
               </div>
-              <div className="text-4xl">👁️</div>
+              <div style={{ fontSize: '48px' }}>👀</div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="flex items-center justify-between">
+          <div style={{ background: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <p className="text-sm text-gray-600">Leads do Mês</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.monthlyLeads}</p>
+                <p style={{ fontSize: '14px', color: '#666', marginBottom: '8px' }}>Leads do Mês</p>
+                <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#333' }}>{stats.monthlyLeads}</p>
               </div>
-              <div className="text-4xl">📞</div>
+              <div style={{ fontSize: '48px' }}>📞</div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="flex items-center justify-between">
+          <div style={{ background: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <p className="text-sm text-gray-600">Ativos</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.activeListings}</p>
+                <p style={{ fontSize: '14px', color: '#666', marginBottom: '8px' }}>Ativos</p>
+                <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#333' }}>{stats.activeListings}</p>
               </div>
-              <div className="text-4xl">✅</div>
+              <div style={{ fontSize: '48px' }}>✅</div>
             </div>
           </div>
         </div>
 
         {/* Recent Properties */}
-        <div className="bg-white rounded-xl shadow-sm border">
-          <div className="p-6 border-b">
-            <h3 className="text-lg font-semibold">Propriedades Recentes</h3>
+        <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+          <div style={{ padding: '24px', borderBottom: '1px solid #eee' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#333' }}>Propriedades Recentes</h3>
           </div>
-          <div className="p-6">
-            <div className="space-y-4">
+          <div style={{ padding: '24px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {properties.map(property => (
-                <div key={property.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                  <div className="flex-1">
-                    <h4 className="font-medium">{property.title}</h4>
-                    <p className="text-sm text-gray-600">{property.price}</p>
+                <div key={property.id} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '16px',
+                  border: '1px solid #eee',
+                  borderRadius: '8px',
+                  transition: 'background 0.2s ease'
+                }}>
+                  <div style={{ flex: 1 }}>
+                    <h4 style={{ fontWeight: '500', marginBottom: '4px', color: '#333' }}>{property.title}</h4>
+                    <p style={{ fontSize: '14px', color: '#666' }}>{property.price}</p>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-500">{property.views} visualizações</span>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      property.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                    }`}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <span style={{ fontSize: '14px', color: '#666' }}>{property.views} visualizações</span>
+                    <span style={{
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      background: property.status === 'Ativo' ? '#dcfce7' : '#f3f4f6',
+                      color: property.status === 'Ativo' ? '#166534' : '#374151'
+                    }}>
                       {property.status}
                     </span>
                   </div>
@@ -103,6 +145,24 @@ const DashboardCRM = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Botão Voltar no rodapé também */}
+        <div style={{ textAlign: 'center', marginTop: '32px' }}>
+          <button
+            onClick={onBack}
+            style={{
+              background: '#6b7280',
+              color: 'white',
+              border: 'none',
+              padding: '12px 32px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}
+          >
+            ← Voltar para o Site
+          </button>
         </div>
       </div>
     </div>

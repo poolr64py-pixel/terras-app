@@ -1,11 +1,144 @@
-import React from 'react';
-import DashboardCRM from './components/Dashboard/DashboardCRM';
+import React, { useState } from 'react';
+import MobileMenu from "./MenuMobile";
+import CRMDashboard from './CRM';
+import HomePage from './components/HomePage';
+import ImoveisPage from './components/ImoveisPage';
+import ServicosPage from './components/ServicosPage';
+import SobrePage from './components/SobrePage';
+import ContatoPage from './components/ContatoPage';
 import './App.css';
 
 function App() {
+  const [showCRM, setShowCRM] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home');
+
+  if (showCRM) {
+    return <CRMDashboard onBack={() => setShowCRM(false)} />;
+  }
+
+  const whatsappNumber = '+595994718400';
+
+  const sendWhatsApp = (message) => {
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'imoveis':
+        return <ImoveisPage onSendWhatsApp={sendWhatsApp} />;
+      case 'servicos':
+        return <ServicosPage onSendWhatsApp={sendWhatsApp} />;
+      case 'sobre':
+        return <SobrePage />;
+      case 'contato':
+        return <ContatoPage onSendWhatsApp={sendWhatsApp} />;
+      default:
+        return <HomePage onSendWhatsApp={sendWhatsApp} onNavigate={setCurrentPage} />;
+    }
+  };
+
   return (
-    <div className="App">
-      <DashboardCRM />
+    <div style={{ minHeight: '100vh' }}>
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'rgba(102, 126, 234, 0.95)',
+        backdropFilter: 'blur(10px)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '15px 50px',
+        color: 'white'
+      }}>
+        <div
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+          onClick={() => setCurrentPage('home')}
+        >
+          <span style={{ fontSize: '24px' }}>🏠</span>
+          <div>
+            <h1 style={{ margin: 0, fontSize: '20px' }}>Imóveis Paraguay</h1>
+            <p style={{ margin: 0, fontSize: '12px' }}>Terras no Paraguay</p>
+          </div>
+          <MobileMenu currentPage={currentPage} setCurrentPage={setCurrentPage} setShowCRM={setShowCRM} />
+        </div>
+
+        <nav className="desktop-nav" style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
+          <button
+            onClick={() => setCurrentPage('home')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'home' ? '#fff' : 'rgba(255,255,255,0.8)', 
+              cursor: 'pointer', 
+              textDecoration: currentPage === 'home' ? 'underline' : 'none' 
+            }}
+          >
+            Início
+          </button>
+          <button
+            onClick={() => setCurrentPage('imoveis')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'imoveis' ? '#fff' : 'rgba(255,255,255,0.8)', 
+              cursor: 'pointer', 
+              textDecoration: currentPage === 'imoveis' ? 'underline' : 'none' 
+            }}
+          >
+            Imóveis
+          </button>
+          <button
+            onClick={() => setCurrentPage('servicos')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'servicos' ? '#fff' : 'rgba(255,255,255,0.8)', 
+              cursor: 'pointer', 
+              textDecoration: currentPage === 'servicos' ? 'underline' : 'none' 
+            }}
+          >
+            Serviços
+          </button>
+          <button
+            onClick={() => setCurrentPage('sobre')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'sobre' ? '#fff' : 'rgba(255,255,255,0.8)', 
+              cursor: 'pointer', 
+              textDecoration: currentPage === 'sobre' ? 'underline' : 'none' 
+            }}
+          >
+            Sobre
+          </button>
+          <button
+            onClick={() => setCurrentPage('contato')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'contato' ? '#fff' : 'rgba(255,255,255,0.8)', 
+              cursor: 'pointer', 
+              textDecoration: currentPage === 'contato' ? 'underline' : 'none' 
+            }}
+          >
+            Contato
+          </button>
+          <button
+            onClick={() => setShowCRM(true)}
+            style={{ color: '#667eea', textDecoration: 'none', cursor: 'pointer' }}
+          >
+            ⚙️👨‍💼 CRM Admin
+          </button>
+        </nav>
+      </header>
+
+      <div style={{ paddingTop: '80px' }}>
+        {renderPage()}
+      </div>
     </div>
   );
 }

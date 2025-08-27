@@ -1,7 +1,14 @@
+import BlogSystem from './blog/BlogSystem';
 import React, { useState } from 'react';
 import MobileMenu from "./MenuMobile";
 import CRMDashboard from './CRM';
+import HomePage from './components/HomePage';
+import ImoveisPage from './components/ImoveisPage';
+import ServicosPage from './components/ServicosPage';
+import SobrePage from './components/SobrePage';
+import ContatoPage from './components/ContatoPage';
 import './App.css';
+
 
 function App() {
   const [showCRM, setShowCRM] = useState(false);
@@ -12,26 +19,28 @@ function App() {
   }
 
   const whatsappNumber = '+595994718400';
-  
+
   const sendWhatsApp = (message) => {
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 
   const renderPage = () => {
-    switch(currentPage) {
-      case 'imoveis':
-        return <ImoveisPage onSendWhatsApp={sendWhatsApp} />;
-      case 'servicos':
-        return <ServicosPage onSendWhatsApp={sendWhatsApp} />;
-      case 'sobre':
-        return <SobrePage />;
-      case 'contato':
-        return <ContatoPage onSendWhatsApp={sendWhatsApp} />;
-      default:
-        return <HomePage onSendWhatsApp={sendWhatsApp} onNavigate={setCurrentPage} />;
-    }
-  };
+  switch(currentPage) {
+    case 'imoveis':
+      return <ImoveisPage onSendWhatsApp={sendWhatsApp} />;
+    case 'servicos':
+      return <ServicosPage onSendWhatsApp={sendWhatsApp} />;
+    case 'sobre':
+      return <SobrePage />;
+    case 'contato':
+      return <ContatoPage onSendWhatsApp={sendWhatsApp} />;
+    case 'blog':
+      return <BlogSystem onSendWhatsApp={sendWhatsApp} />;
+    default:
+      return <HomePage onSendWhatsApp={sendWhatsApp} onNavigate={setCurrentPage} />;
+  }
+};
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -49,7 +58,7 @@ function App() {
         padding: '15px 50px',
         color: 'white'
       }}>
-        <div 
+        <div
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           onClick={() => setCurrentPage('home')}
         >
@@ -60,45 +69,93 @@ function App() {
           </div>
           <MobileMenu currentPage={currentPage} setCurrentPage={setCurrentPage} setShowCRM={setShowCRM} />
         </div>
-        
+
         <nav className="desktop-nav" style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
-          <button 
-            onClick={() => setCurrentPage('home')}
-            style={{ background: 'none', border: 'none', color: currentPage === 'home' ? '#fff' : 'rgba(255,255,255,0.8)', cursor: 'pointer', textDecoration: currentPage === 'home' ? 'underline' : 'none' }}
-          >
-            Início
-          </button>
-          <button 
-            onClick={() => setCurrentPage('imoveis')}
-            style={{ background: 'none', border: 'none', color: currentPage === 'imoveis' ? '#fff' : 'rgba(255,255,255,0.8)', cursor: 'pointer', textDecoration: currentPage === 'imoveis' ? 'underline' : 'none' }}
-          >
-            Imóveis
-          </button>
-          <button 
-            onClick={() => setCurrentPage('servicos')}
-            style={{ background: 'none', border: 'none', color: currentPage === 'servicos' ? '#fff' : 'rgba(255,255,255,0.8)', cursor: 'pointer', textDecoration: currentPage === 'servicos' ? 'underline' : 'none' }}
-          >
-            Serviços
-          </button>
-          <button 
-            onClick={() => setCurrentPage('sobre')}
-            style={{ background: 'none', border: 'none', color: currentPage === 'sobre' ? '#fff' : 'rgba(255,255,255,0.8)', cursor: 'pointer', textDecoration: currentPage === 'sobre' ? 'underline' : 'none' }}
-          >
-            Sobre
-          </button>
-          <button 
-            onClick={() => setCurrentPage('contato')}
-            style={{ background: 'none', border: 'none', color: currentPage === 'contato' ? '#fff' : 'rgba(255,255,255,0.8)', cursor: 'pointer', textDecoration: currentPage === 'contato' ? 'underline' : 'none' }}
-          >
-            Contato
-          </button>
+  <button
+  onClick={() => setCurrentPage('home')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'home' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'home' ? 'underline' : 'none' 
+  }}
+>
+  Início
+</button>
+<button
+  onClick={() => setCurrentPage('imoveis')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'imoveis' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'imoveis' ? 'underline' : 'none' 
+  }}
+>
+  Imóveis
+</button>
+<button
+  onClick={() => setCurrentPage('servicos')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'servicos' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'servicos' ? 'underline' : 'none' 
+  }}
+>
+  Serviços
+</button>
+<button
+  onClick={() => setCurrentPage('sobre')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'sobre' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'sobre' ? 'underline' : 'none' 
+  }}
+>
+  Sobre
+</button>
+<button
+  onClick={() => setCurrentPage('contato')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'contato' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'contato' ? 'underline' : 'none' 
+  }}
+>
+  Contato
+</button>
+<button
+  onClick={() => setCurrentPage('blog')}
+  style={{ 
+    background: 'none', 
+    border: 'none', 
+    color: currentPage === 'blog' ? '#fff' : 'rgba(255,255,255,0.8)', 
+    cursor: 'pointer', 
+    textDecoration: currentPage === 'blog' ? 'underline' : 'none' 
+  }}
+>
+  Blog
+</button>
 <button
   onClick={() => setShowCRM(true)}
-  style={{ color: '#667eea', textDecoration: 'none', cursor: 'pointer' }}
+  style={{ 
+    background: 'none',
+    border: 'none',
+    color: '#667eea', 
+    textDecoration: 'none', 
+    cursor: 'pointer' 
+  }}
 >
-  👨‍💼 CRM Admin
-</button>       
- </nav>
+  ⚙️👨‍💼 CRM Admin
+</button>
+        </nav>
       </header>
 
       <div style={{ paddingTop: '80px' }}>
@@ -107,341 +164,5 @@ function App() {
     </div>
   );
 }
-
-const HomePage = ({ onSendWhatsApp, onNavigate }) => (
-  <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: 'calc(100vh - 80px)' }}>
-    <div style={{ textAlign: 'center', padding: '100px 20px', color: 'white' }}>
-      <h1 style={{ fontSize: '48px', marginBottom: '20px', fontWeight: 'bold' }}>
-        Invista em Imóveis no Paraguay
-      </h1>
-      <p style={{ fontSize: '22px', maxWidth: '700px', margin: '0 auto 40px', lineHeight: '1.6' }}>
-        A plataforma líder para brasileiros investirem em imóveis no Paraguay. 
-        Suporte completo do Brasil ao Paraguay com total segurança jurídica.
-      </p>
-      
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '60px' }}>
-        <button 
-          onClick={() => onNavigate('imoveis')}
-          style={{
-            background: 'white',
-            color: '#667eea',
-            border: 'none',
-            padding: '18px 35px',
-            borderRadius: '25px',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
-          }}
-        >
-          🏠 Ver Imóveis
-        </button>
-        
-        <button 
-          onClick={() => onSendWhatsApp('Olá! Tenho interesse em investir em imóveis no Paraguay. Gostaria de falar com um consultor.')}
-          style={{
-            background: '#25D366',
-            color: 'white',
-            border: 'none',
-            padding: '18px 35px',
-            borderRadius: '25px',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
-          }}
-        >
-          💬 Falar no WhatsApp
-        </button>
-      </div>
-
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-        gap: '30px', 
-        maxWidth: '1200px', 
-        margin: '0 auto',
-        padding: '0 20px'
-      }}>
-        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '30px', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-          <h3 style={{ fontSize: '24px', marginBottom: '15px' }}>🛡️ Segurança Jurídica</h3>
-          <p>Mais de 12 anos de experiência. Todos os processos com acompanhamento jurídico completo.</p>
-        </div>
-        
-        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '30px', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-          <h3 style={{ fontSize: '24px', marginBottom: '15px' }}>💰 Melhor ROI</h3>
-          <p>Propriedades selecionadas com potencial de valorização e rentabilidade acima da média.</p>
-        </div>
-        
-        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '30px', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
-          <h3 style={{ fontSize: '24px', marginBottom: '15px' }}>🌎 Suporte Completo</h3>
-          <p>Acompanhamento desde a escolha até a escritura. Suporte em português do Brasil ao Paraguay.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const ImoveisPage = ({ onSendWhatsApp }) => (
-  <div style={{ background: '#f8f9fa', minHeight: 'calc(100vh - 80px)', padding: '40px 20px' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '36px', marginBottom: '40px', color: '#333' }}>
-        Imóveis Disponíveis no Paraguay
-      </h1>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
-        {[
-          {
-            id: 1,
-            title: 'Casa em Assunção Centro',
-            price: 'USD 185.000',
-            area: '180m²',
-            rooms: '3 quartos',
-            location: 'Assunção, Paraguay',
-            description: 'Casa moderna em localização privilegiada no centro de Assunção.',
-            image: '🏠'
-          },
-          {
-            id: 2,
-            title: 'Terreno em Lambaré',
-            price: 'USD 95.000',
-            area: '500m²',
-            rooms: 'Terreno',
-            location: 'Lambaré, Paraguay',
-            description: 'Terreno pronto para construção em área nobre de Lambaré.',
-            image: '🏞️'
-          },
-          {
-            id: 3,
-            title: 'Apartamento Vista Rio',
-            price: 'USD 125.000',
-            area: '95m²',
-            rooms: '2 quartos',
-            location: 'Puerto Sajonia',
-            description: 'Apartamento com vista para o Rio Paraguai, totalmente mobiliado.',
-            image: '🏢'
-          }
-        ].map(property => (
-          <div key={property.id} style={{
-            background: 'white',
-            borderRadius: '15px',
-            padding: '25px',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.1)'
-          }}>
-            <div style={{ fontSize: '60px', textAlign: 'center', marginBottom: '20px' }}>
-              {property.image}
-            </div>
-            <h3 style={{ fontSize: '22px', marginBottom: '10px', color: '#333' }}>{property.title}</h3>
-            <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#667eea', marginBottom: '15px' }}>{property.price}</p>
-            <div style={{ marginBottom: '15px' }}>
-              <p style={{ margin: '5px 0', color: '#666' }}>📏 {property.area}</p>
-              <p style={{ margin: '5px 0', color: '#666' }}>🛏️ {property.rooms}</p>
-              <p style={{ margin: '5px 0', color: '#666' }}>📍 {property.location}</p>
-            </div>
-            <p style={{ color: '#666', marginBottom: '20px', lineHeight: '1.5' }}>{property.description}</p>
-            <button
-              onClick={() => onSendWhatsApp(`Olá! Tenho interesse no imóvel: ${property.title} - ${property.price}. Gostaria de mais informações.`)}
-              style={{
-                width: '100%',
-                background: '#25D366',
-                color: 'white',
-                border: 'none',
-                padding: '12px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              💬 Tenho Interesse
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-const ServicosPage = ({ onSendWhatsApp }) => (
-  <div style={{ background: '#f8f9fa', minHeight: 'calc(100vh - 80px)', padding: '40px 20px' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '36px', marginBottom: '40px', color: '#333' }}>
-        Nossos Serviços
-      </h1>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-        {[
-          {
-            icon: '🏠',
-            title: 'Consultoria Imobiliária',
-            description: 'Análise completa do mercado paraguaio e seleção de imóveis com melhor potencial de valorização.',
-            price: 'Consultoria gratuita'
-          },
-          {
-            icon: '⚖️',
-            title: 'Assessoria Jurídica',
-            description: 'Acompanhamento jurídico completo desde a due diligence até a escritura final.',
-            price: 'A partir de R$ 5.500'
-          },
-          {
-            icon: '💰',
-            title: 'Planejamento Financeiro',
-            description: 'Estruturação de investimento e planejamento tributário para maximizar rentabilidade.',
-            price: 'A partir de R$ 3.500'
-          },
-          {
-            icon: '📋',
-            title: 'Residência Fiscal',
-            description: 'Assessoria completa para obtenção de residência fiscal no Paraguay.',
-            price: 'A partir de R$ 8.500'
-          },
-          {
-            icon: '🏗️',
-            title: 'Construção e Reforma',
-            description: 'Gerenciamento de obras e reformas com equipe local especializada.',
-            price: 'Orçamento personalizado'
-          },
-          {
-            icon: '🏢',
-            title: 'Gestão Patrimonial',
-            description: 'Administração e gestão do seu patrimônio imobiliário no Paraguay.',
-            price: 'A partir de R$ 1.200/mês'
-          }
-        ].map((service, index) => (
-          <div key={index} style={{
-            background: 'white',
-            borderRadius: '15px',
-            padding: '30px',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>{service.icon}</div>
-            <h3 style={{ fontSize: '22px', marginBottom: '15px', color: '#333' }}>{service.title}</h3>
-            <p style={{ color: '#666', marginBottom: '20px', lineHeight: '1.6' }}>{service.description}</p>
-            <p style={{ fontSize: '18px', fontWeight: 'bold', color: '#667eea', marginBottom: '20px' }}>{service.price}</p>
-            <button
-              onClick={() => onSendWhatsApp(`Olá! Gostaria de mais informações sobre: ${service.title}`)}
-              style={{
-                background: '#667eea',
-                color: 'white',
-                border: 'none',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              Solicitar Orçamento
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-const SobrePage = () => (
-  <div style={{ background: '#f8f9fa', minHeight: 'calc(100vh - 80px)', padding: '40px 20px' }}>
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '36px', marginBottom: '40px', color: '#333' }}>
-        Sobre a Terras no Paraguay
-      </h1>
-      
-      <div style={{ background: 'white', borderRadius: '15px', padding: '40px', boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}>
-        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>Nossa História</h2>
-        <p style={{ lineHeight: '1.8', marginBottom: '25px', color: '#555' }}>
-          Há mais de 12 anos ajudamos brasileiros a investir com segurança no Paraguay. 
-          Somos especialistas no mercado imobiliário paraguaio e oferecemos suporte completo 
-          desde a escolha do imóvel até a escritura final.
-        </p>
-        
-        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>Nossa Missão</h2>
-        <p style={{ lineHeight: '1.8', marginBottom: '25px', color: '#555' }}>
-          Democratizar o acesso ao mercado imobiliário paraguaio para investidores brasileiros, 
-          oferecendo total transparência, segurança jurídica e o melhor retorno sobre investimento.
-        </p>
-        
-        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>Por que Paraguay?</h2>
-        <ul style={{ lineHeight: '1.8', color: '#555', paddingLeft: '20px' }}>
-          <li>Moeda estável (Guarani) com economia sólida</li>
-          <li>Impostos reduzidos (0% sobre ganho de capital)</li>
-          <li>Facilidade para residência fiscal</li>
-          <li>Mercado imobiliário em crescimento</li>
-          <li>Proximidade cultural e geográfica com o Brasil</li>
-          <li>Custo de vida reduzido</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
-
-const ContatoPage = ({ onSendWhatsApp }) => (
-  <div style={{ background: '#f8f9fa', minHeight: 'calc(100vh - 80px)', padding: '40px 20px' }}>
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '36px', marginBottom: '40px', color: '#333' }}>
-        Entre em Contato
-      </h1>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
-        <div style={{ background: 'white', borderRadius: '15px', padding: '30px', boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}>
-          <h2 style={{ color: '#667eea', marginBottom: '25px' }}>Nossos Canais</h2>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ color: '#333', marginBottom: '10px' }}>📱 WhatsApp</h3>
-            <p style={{ color: '#666', marginBottom: '10px' }}>+595 99 471 8400</p>
-            <button
-              onClick={() => onSendWhatsApp('Olá! Gostaria de mais informações sobre investimentos no Paraguay.')}
-              style={{
-                background: '#25D366',
-                color: 'white',
-                border: 'none',
-                padding: '8px 16px',
-                borderRadius: '6px',
-                fontSize: '14px',
-                cursor: 'pointer'
-              }}
-            >
-              Enviar Mensagem
-            </button>
-          </div>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ color: '#333', marginBottom: '10px' }}>📧 Email</h3>
-            <p style={{ color: '#666' }}>contato@terrasnoparaguay.com</p>
-          </div>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ color: '#333', marginBottom: '10px' }}>🏢 Escritórios</h3>
-            <p style={{ color: '#666', marginBottom: '5px' }}><strong>Brasil:</strong> São Paulo, SP</p>
-            <p style={{ color: '#666' }}><strong>Paraguay:</strong> Assunção, Paraguay</p>
-          </div>
-        </div>
-        
-        <div style={{ background: 'white', borderRadius: '15px', padding: '30px', boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}>
-          <h2 style={{ color: '#667eea', marginBottom: '25px' }}>Formulário de Contato</h2>
-          <p>📞 Para agilizar o atendimento, clique no botão abaixo para falar diretamente no WhatsApp:</p>
-          <button
-            onClick={() => onSendWhatsApp('Olá! Gostaria de mais informações sobre investimentos em imóveis no Paraguay.')}
-            style={{
-              width: '100%',
-              background: '#25D366',
-              color: 'white',
-              border: 'none',
-              padding: '15px',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              marginTop: '20px'
-            }}
-          >
-            💬 Falar no WhatsApp
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 export default App;
